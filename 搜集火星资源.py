@@ -4,6 +4,7 @@ import datetime
 import math
 import os
 from RLDungeonGenerator import RLDungeonGenerator,Room
+import time
 
 '''用于缩小放大物体的比例尺'''
 WALL_SPRITE_SCALING = 1
@@ -217,8 +218,13 @@ class GameView(arcade.View):
             while not alien_placed:
                 alien_sprite.center_x = random.randrange(AREA_WIDTH)
                 alien_sprite.center_y = random.randrange(AREA_HEIGHT)
-                walls_hit = arcade.check_for_collision_with_list(alien_sprite, self.wall_list)
-                if len(walls_hit) == 0:
+                colliding_sprites = arcade.check_for_collision_with_list(alien_sprite, self.wall_list, 100)
+                if colliding_sprites:
+                    print("Collisions detected!")
+                    for sprite in colliding_sprites:
+                        print(f"Collided with {sprite}")
+                else:
+                    print("No collisions detected.")
                     alien_placed = True
             self.alien_list.append(alien_sprite)
             
